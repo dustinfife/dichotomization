@@ -1,0 +1,50 @@
+---
+title: "Why Dichotomizing the Barthel Index is a Bad Idea"
+output: html_document
+---
+
+## Purpose of the Simulation
+
+This simulation is designed to illustrate the pitfalls of dichotomizing a continuous outcome variable—specifically, the **Barthel Index**, a commonly used measure of functional independence after stroke.
+
+Although clinicians often think in binary terms (e.g., recovered vs. not recovered), the Barthel Index itself is **not** bimodal. Instead, it tends to show a unimodal (often roughly normal or right-skewed) distribution. This simulation walks through several scenarios to demonstrate why modeling the continuous outcome leads to better predictions, more information retention, and fewer distortions than dichotomizing does.
+
+------------------------------------------------------------------------
+
+## Simulation Goals
+
+1.  **Simulate Latent Binary Recovery Status**\
+    Create a latent binary variable (recovered vs. not recovered), and simulate Barthel scores that arise from it. The two groups are given overlapping means so that the resulting Barthel distribution is **unimodal**, as it typically is in real data.
+
+2.  **Demonstrate Fuzzy Separation Between Groups**\
+    Show that, due to overlapping distributions, even if a latent binary class exists, it's **very difficult to recover it** based on observed Barthel scores. Misclassification is inevitable near the cutoff.
+
+3.  **Compare Modeling Strategies**\
+    Fit one model using the **continuous Barthel scores**, and another using a **dichotomized version** (e.g., ≥60 = good outcome). Evaluate predictive performance using RMSE and AUC.\
+    **Conclusion**: Using the continuous outcome yields better predictions and preserves more information.
+
+4.  **Simulate a World Without a Latent Binary Class**\
+    Generate Barthel scores from a **single normal distribution** (i.e., no latent binary class at all). Fit the same models and show that the dichotomized approach still performs poorly.\
+    **Conclusion**: Even in the absence of an underlying binary class, dichotomizing the outcome can lead to misleading results.
+
+5.  **Simulate a Misleading Predictor-Outcome Relationship**\
+    Add a nonlinear relationship between the predictor and outcome. Show how dichotomizing can **reverse or obscure** true effects—especially when the relationship is non-monotonic or curvilinear.
+
+------------------------------------------------------------------------
+
+## When Might Dichotomizing Be Justified?
+
+Although it's generally harmful, there are **two limited scenarios** where dichotomization might be defensible:
+
+-   **Measurement Error or Meaningless Precision**\
+    When small differences are likely due to noise or biologically irrelevant variation (e.g., testosterone levels), it might make sense to dichotomize—**if** there's a clear theoretical cutoff.
+
+-   **Zero-Inflated Variables**\
+    When a variable captures both presence and quantity (e.g., number of cigarettes smoked), it's often modeled in two parts:
+
+    1.  A binary indicator for presence (yes/no)
+    2.  A conditional model for quantity, given presence
+
+In both cases, alternatives like **spline modeling**, **thresholding after modeling**, or **two-part models** are typically preferable.
+
+------------------------------------------------------------------------

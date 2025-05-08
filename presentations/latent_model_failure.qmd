@@ -1,0 +1,68 @@
+---
+title: "Why the Latent Binary Model Underlying Dichotomization Fails"
+format: html
+---
+
+## Introduction
+
+Clinicians often approach recovery outcomes (like the Barthel Index) as if they reflect a latent binary classification: patients are either "recovered" or "not recovered." This intuition motivates the common practice of **dichotomizing continuous outcomes**, setting thresholds (e.g., Barthel ≥ 60) to label outcomes as "good" or "bad."
+
+But what if we actually take that intuition seriously and simulate a world where it’s true? This document explores that question using a series of simulations and theoretical considerations. What we find is striking:
+
+> **Even if there is a latent binary recovery variable driving the outcome, it does not produce the kind of data that would justify dichotomization.**
+
+In fact, under reasonable assumptions, the resulting relationships between predictors and the observed outcome are so weak that the entire modeling framework collapses before we even get to dichotomization.
+
+## Simulation Setup
+
+We assume a latent binary variable `recovered` that takes values 0 or 1, with equal probability. This latent class then influences:
+
+-   A set of predictor variables (e.g., x1, x2)
+-   The observed outcome (Barthel Index), which is continuous
+
+We vary how much influence the latent class has on these variables, simulating both realistic and idealized scenarios.
+
+## Findings
+
+### 1. Weak Signal Under Realistic Assumptions
+
+If we generate the Barthel Index as a noisy continuous reflection of the latent class, and similarly allow predictors to be noisy reflections of the same class, we find that:
+
+-   The Barthel distribution is unimodal
+-   The predictors are unimodal
+-   The relationship between predictors and Barthel is weak
+
+This means that **the latent class does not create separable groups** in the data, making it nearly impossible to recover the latent state based on predictors alone.
+
+### 2. Strong Signal Requires Unrealistic Assumptions
+
+To make the latent class clearly separable (i.e., to create a strong relationship between predictors and outcome), we must:
+
+-   Greatly separate the means of the groups
+-   Shrink within-group variance
+-   Create visibly bimodal data
+
+But these assumptions do **not** match observed clinical data, which is typically noisy and unimodal. Worse, they imply that the latent class has a deterministic grip on the outcome, which contradicts most clinical realities.
+
+### 3. The Only Way Out: Correlated Errors
+
+Suppose we try to restore a strong relationship between predictors and the Barthel score while keeping realistic variance. The only way this works is if we:
+
+-   Allow predictors to influence Barthel directly **in addition to** the latent class
+-   Accept that **the measurement error in the predictors is correlated with the measurement error in Barthel**
+
+This is a fatal assumption.
+
+In psychometrics and measurement theory: - Errors are assumed to be independent unless modeled explicitly (e.g., in SEM) - Correlated errors invalidate model identification and interpretation
+
+Thus, we are forced into an untenable position:
+
+> **Either accept that predictor–outcome relationships are weak (in which case, dichotomizing doesn’t help), or posit mathematically invalid assumptions to try to rescue them.**
+
+## Conclusion
+
+The latent binary model that clinicians implicitly rely on when justifying outcome dichotomization fails under scrutiny. Even granting the most favorable assumptions—that a binary state exists and drives both predictors and outcomes—the resulting data still do not support dichotomizing the continuous outcome.
+
+This leads us to a broader conclusion:
+
+> **If the world really were binary, we wouldn’t need to dichotomize—the data would separate cleanly on their own. The fact that they don’t is evidence that the world isn’t binary, and dichotomizing is doing more harm than good.**
